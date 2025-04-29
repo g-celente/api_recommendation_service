@@ -1,0 +1,18 @@
+version: "3.9"
+
+services: 
+  AuthServiceDB: 
+    container_name: AuthServiceDB
+    image: postgres:17
+    enviroment: 
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports: 
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
+    
