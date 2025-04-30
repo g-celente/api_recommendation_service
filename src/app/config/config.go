@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 
-	config "github.com/g-celente/AuthService/src/app/database"
+	"github.com/g-celente/AuthService/src/app/database"
 	"gorm.io/gorm"
 )
 
@@ -12,17 +12,17 @@ var (
 	logger *Logger
 )
 
-func Init() error {
+func Init() (*gorm.DB, error) {
 	var err error
 
 	// Initialize Postgres
-	db, err = config.InitializePostgres()
+	db, err = database.InitializePostgres()
 
 	if err != nil {
-		return fmt.Errorf("error initializing sqlite: %v", err)
+		return db, fmt.Errorf("error initializing sqlite: %v", err)
 	}
 
-	return nil
+	return db, nil
 }
 
 func GetSQLite() *gorm.DB {

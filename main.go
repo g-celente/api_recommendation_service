@@ -2,7 +2,10 @@ package main
 
 import (
 	"github.com/g-celente/AuthService/src/app/config"
+	"github.com/g-celente/AuthService/src/app/database"
+	"github.com/g-celente/AuthService/src/app/web/controller"
 	"github.com/g-celente/AuthService/src/app/web/routes"
+	"github.com/g-celente/AuthService/src/core/useCase"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -21,7 +24,7 @@ func main() {
 		return
 	}
 
-	err := config.Init()
+	db, err := config.Init()
 
 	if err != nil {
 		logger.Errorf("config initialization error: %v", err)
@@ -30,7 +33,11 @@ func main() {
 
 	server := gin.Default()
 
-	routes.RegisterRoutes(server)
+	repo := database.NewRecommendationPG(db)
+	use := useCase.NewSaveRecommendation(repo)
+	controller := controller.NewRecommendationController(use)
+
+	routes.RegisterRoutes(server, controller)
 
 	server.Run(":8000")
 

@@ -1,8 +1,10 @@
-package config
+package database
 
 import (
 	"fmt"
 	"os"
+
+	"github.com/g-celente/AuthService/src/core/model"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -21,6 +23,12 @@ func InitializePostgres() (*gorm.DB, error) {
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, fmt.Errorf("falha ao conectar no Postgres: %v", err)
+	}
+
+	err = db.AutoMigrate(&model.Recommendation{})
+
+	if err != nil {
+		return nil, fmt.Errorf("falha ao fazer migration: %v ", err)
 	}
 
 	return db, nil
