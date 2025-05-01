@@ -25,7 +25,7 @@ func InitializePostgres() (*gorm.DB, error) {
 		return nil, fmt.Errorf("falha ao conectar no Postgres: %v", err)
 	}
 
-	err = db.AutoMigrate(&model.Recommendation{})
+	err = db.AutoMigrate(&model.HistoryEvent{})
 
 	if err != nil {
 		return nil, fmt.Errorf("falha ao fazer migration: %v ", err)

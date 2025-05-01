@@ -8,16 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RecommendationController struct {
-	UseCase *useCase.SaveRecommendation
+type HistoryEventController struct {
+	UseCase *useCase.SaveHistoryEvent
 }
 
-func NewRecommendationController(use *useCase.SaveRecommendation) *RecommendationController {
-	return &RecommendationController{UseCase: use}
+func NewHistoryEventController(use *useCase.SaveHistoryEvent) *HistoryEventController {
+	return &HistoryEventController{UseCase: use}
 }
 
-func (ctrl *RecommendationController) Receive(c *gin.Context) {
-	var input model.Recommendation
+func (ctrl *HistoryEventController) Receive(c *gin.Context) {
+	var input model.HistoryEvent
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

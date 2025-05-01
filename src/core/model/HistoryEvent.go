@@ -4,7 +4,7 @@ import (
 	"github.com/lib/pq"
 )
 
-type Recommendation struct {
+type HistoryEvent struct {
 	ID      uint   `gorm:"primaryKey"`
 	UserID  string `gorm:"index"`
 	EventID string

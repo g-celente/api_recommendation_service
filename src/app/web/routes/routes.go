@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoutes(r *gin.Engine, controller *controller.RecommendationController) {
+func RegisterRoutes(r *gin.Engine, controller *controller.HistoryEventController) {
 
 	api := r.Group("/api")
 	{

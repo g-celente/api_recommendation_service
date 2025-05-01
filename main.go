@@ -33,9 +33,9 @@ func main() {
 
 	server := gin.Default()
 
-	repo := database.NewRecommendationPG(db)
-	use := useCase.NewSaveRecommendation(repo)
-	controller := controller.NewRecommendationController(use)
+	repo := database.NewHistoryEventPG(db)
+	use := useCase.NewSaveHistoryEvent(repo)
+	controller := controller.NewHistoryEventController(use)
 
 	routes.RegisterRoutes(server, controller)
 
