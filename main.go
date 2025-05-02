@@ -28,9 +28,9 @@ func main() {
 		return
 	}
 
-	// Inicializa usecase
 	repo := database.NewHistoryEventPG(db)
-	use := useCase.NewSaveHistoryEvent(repo)
+	saveUse := useCase.NewSaveHistoryEvent(repo)
+	recUse := useCase.NewRecommendationUseCase(repo)
 
 	// Inicia RabbitMQ
 	rabbitmq, err := messagebroker.NewRabbitMQ(os.Getenv("RABBITMQ_CONNECTION_URL"), os.Getenv("RABBITMQ_QUEUE_NAME"))
@@ -41,11 +41,12 @@ func main() {
 	defer rabbitmq.Close()
 
 	// Consome mensagens em background
-	worker.ConsumeHistoryEvents(rabbitmq, use)
+	worker.ConsumeHistoryEvents(rabbitmq, saveUse)
 
 	// Inicia API
 	server := gin.Default()
-	controller := controller.NewHistoryEventController(use)
-	routes.RegisterRoutes(server, controller)
+	recCtrl := controller.NewRecommendationController(recUse)
+
+	routes.RegisterRoutes(server, recCtrl)
 	server.Run(":8000")
 }

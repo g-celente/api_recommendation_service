@@ -5,11 +5,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoutes(r *gin.Engine, controller *controller.HistoryEventController) {
-
+func RegisterRoutes(r *gin.Engine, recController *controller.RecommendationController) {
 	api := r.Group("/api")
 	{
-		api.POST("/recommendation", controller.Receive)
+		api.GET("/recommendation/:email", recController.Recommend)
 	}
-
 }
